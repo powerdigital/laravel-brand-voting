@@ -35,7 +35,7 @@ header .list-unstyled a:hover {
 /* Categories list */
 .categories a {
   color: #5a85ae;
-  font-family: Arial !important;
+  font-family: Arial, serif !important;
   text-transform: uppercase;
   text-decoration: underline;
 }
@@ -108,6 +108,10 @@ header .list-unstyled a:hover {
   font-size: 0.8rem;
 }
 
+.album {
+  min-height: 30rem;
+}
+
 .album .col-md-4 img {
   max-width: 100%;
   height: 230px;
@@ -141,6 +145,10 @@ header .list-unstyled a:hover {
 .like:hover {
   background: url('../img/like.png') 0 0 no-repeat;
   background-size: 100%;
+}
+
+.pagination-block {
+  margin: 2rem 0;
 }
 
 .pagination {

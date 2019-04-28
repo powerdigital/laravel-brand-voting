@@ -12,5 +12,7 @@
 */
 
 Route::get('/', 'IndexController@index');
+Route::get('/category/{category}', 'IndexController@index');
+Route::get('/category/{category}/page/{page}', 'IndexController@index');
 
 Route::post('/login', 'Auth\LoginController@login');
