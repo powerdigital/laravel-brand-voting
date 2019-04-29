@@ -8,7 +8,7 @@
 
     <title>{{env('APP_TITLE')}}</title>
 
-    <link href="{{mix('/css/app.css')}}" rel="stylesheet">
+    <link href="{{asset('/css/app.css')}}" rel="stylesheet">
 </head>
 <body>
 <header id="header"></header>
@@ -18,6 +18,6 @@
 </main>
 
 <footer class="py-5 bg-dark" id="footer"></footer>
-<script src="{{mix('/js/app.js')}}"></script>
+<script src="{{asset('/js/app.js')}}"></script>
 </body>
 </html>
