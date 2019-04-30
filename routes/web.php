@@ -12,7 +12,6 @@
 */
 
 Route::get('/', 'IndexController@index');
-Route::get('/company', 'CompanyController@index');
 Route::get('/category/{category}', 'IndexController@index');
 Route::get('/category/{category}/page/{page}', 'IndexController@index');
 
