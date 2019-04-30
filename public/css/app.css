@@ -10696,12 +10696,6 @@ header .list-unstyled a:hover {
   user-select: none;
 }
 
-@media (min-width: 768px) {
-  .bd-placeholder-img-lg {
-    font-size: 3.5rem;
-  }
-}
-
 .categories {
   display: block;
   text-align: center;
@@ -10728,6 +10722,10 @@ header .list-unstyled a:hover {
   .categories a {
     font-size: 0.75rem;
     margin: 0 0.5rem;
+  }
+
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
   }
 }
 
@@ -10784,7 +10782,7 @@ header .list-unstyled a:hover {
 }
 
 .album {
-  min-height: 30rem;
+  min-height: 40rem;
 }
 
 .album .col-md-4 img {

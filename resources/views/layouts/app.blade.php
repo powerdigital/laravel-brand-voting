@@ -14,6 +14,7 @@
 <header id="header"></header>
 
 <main role="main">
+    <div id="main"></div>
     @yield('content')
 </main>
 

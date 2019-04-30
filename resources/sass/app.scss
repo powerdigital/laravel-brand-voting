@@ -39,12 +39,6 @@ header .list-unstyled a:hover {
   user-select: none;
 }
 
-@media (min-width: 768px) {
-  .bd-placeholder-img-lg {
-    font-size: 3.5rem;
-  }
-}
-
 .categories {
   display: block;
   text-align: center;
@@ -52,11 +46,13 @@ header .list-unstyled a:hover {
 }
 
 /* Categories list */
-.categories a {
-  color: #5a85ae;
-  font-family: Arial, serif !important;
-  text-transform: uppercase;
-  text-decoration: underline;
+.categories {
+  a {
+    color: #5a85ae;
+    font-family: Arial, serif !important;
+    text-transform: uppercase;
+    text-decoration: underline;
+  }
 }
 
 @media (min-width: 544px) {
@@ -70,6 +66,9 @@ header .list-unstyled a:hover {
   .categories a {
     font-size: 0.75rem;
     margin: 0 0.5rem;
+  }
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
   }
 }
 
@@ -91,20 +90,22 @@ header .list-unstyled a:hover {
   height: 26rem;
 }
 
-.company .card-body {
-  height: 10rem;
-  padding: 0.5rem 0;
-  overflow: hidden;
-}
+.company {
+  .card-body {
+    height: 10rem;
+    padding: 0.5rem 0;
+    overflow: hidden;
+  }
 
-.company ul {
-  padding: 0;
-  list-style: none;
-}
+  ul {
+    padding: 0;
+    list-style: none;
+  }
 
-.company li {
-  display: block;
-  clear: both;
+  li {
+    display: block;
+    clear: both;
+  }
 }
 
 .company-name {
@@ -126,7 +127,7 @@ header .list-unstyled a:hover {
 }
 
 .album {
-  min-height: 30rem;
+  min-height: 40rem;
 }
 
 .album {
@@ -144,8 +145,10 @@ header .list-unstyled a:hover {
   padding: 0 !important;
 }
 
-.card-right .btn-group {
-  margin: 0 auto;
+.card-right {
+  .btn-group {
+    margin: 0 auto;
+  }
 }
 
 .score {

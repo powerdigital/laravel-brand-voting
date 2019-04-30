@@ -1,59 +1,73 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
 
-class Header extends Component {
+import Company from './Company';
+import Category from "./Category";
+
+const CATEGORIES = [
+    {'id': 1, 'value': 'Свыше 200 чел'},
+    {'id': 2, 'value': 'От 100 до 200 чел'},
+    {'id': 3, 'value': 'От 50 до 100 чел'},
+    {'id': 4, 'value': 'От 20 до 50 чел'},
+    {'id': 5, 'value': 'До 20 чел'},
+];
+
+export default class Main extends Component {
+    constructor() {
+        super();
+
+        this.state = {
+            data: [],
+        }
+    }
+
+    componentDidMount() {
+        fetch('/company')
+            .then((response) => {
+                return response.json();
+            })
+            .then(data => {
+                this.setState({data});
+            });
+    }
+
+    renderCategories() {
+        return CATEGORIES.map(category => {
+            return (
+                <Category category={category} key={category.id}/>
+            );
+        })
+    }
+
+    renderCompanies() {
+        if (typeof this.state.data === 'undefined' || this.state.data.length === 0) {
+            return;
+        }
+
+        return this.state.data.companies.map(company => {
+            company.votes = this.state.data.votes[company.id] ? this.state.data.votes[company.id] : 0;
+
+            return (
+                <Company company={company} key={company.id}/>
+            );
+        })
+    }
+
     render() {
         return (
             <div>
-                <div className="navbar navbar-dark bg-dark shadow-sm">
-                    <div className="container d-flex justify-content-between">
-                        <a href="/" className="navbar-brand d-flex align-items-center">
-                            <span className="logo"></span>
-                        </a>
-                    </div>
+                <div className="categories">
+                    <a href='/'>Все</a>
+                    {this.renderCategories()}
                 </div>
-                <div className="bg-dark" id="navbarHeader">
+
+                <div className="album py-5 bg-light">
                     <div className="container">
                         <div className="row">
-                            <div className="col-sm-8 col-md-8 py-2">
-                                <h4 className="text-orange">О премии</h4>
-                                <p className="text-white">HR Brand Crimea - первая премия за лучший бренд
-                                    компании-работодателя в Крыму. Премия проводится с целью определения компаний с
-                                    наиболее эффективной и лояльной системой управления.</p>
-                                <button type="button" className="conditions btn btn-sm btn-primary" data-toggle="modal"
-                                        data-target=".bd-example-modal-lg">Условия конкурса
-                                </button>
-                            </div>
-                            <div className="col-sm-4 py-2">
-                                <h4 className="text-orange">Контакты</h4>
-                                <ul className="list-unstyled">
-                                    <li><a href="tel:+79785555555" className="text-white">+7 978 555-55-55</a></li>
-                                    <li><a href="http://hrdaycrimea.ru" className="text-white"
-                                           target="_blank">Организаторы</a></li>
-                                </ul>
-                            </div>
+                            {this.renderCompanies()}
                         </div>
                     </div>
                 </div>
             </div>
         );
     }
-}
-
-class Footer extends Component {
-    render() {
-        return (
-            <div className="container">
-                <p className="m-0 text-center text-white">ПРЕМИЯ HR BRAND CRIMEA &copy; 2019</p>
-            </div>
-        );
-    }
-}
-
-if (document.getElementById('header')) {
-    ReactDOM.render(<Header/>, document.getElementById('header'));
-}
-
-if (document.getElementById('footer')) {
-    ReactDOM.render(<Footer/>, document.getElementById('footer'));
 }
