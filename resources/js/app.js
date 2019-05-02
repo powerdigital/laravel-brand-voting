@@ -15,7 +15,7 @@ require('./bootstrap');
 
 // require('./components/Common');
 
-/**
- * jQuery app.
- */
+
+
 require('./common');
+require('./vendor/jquery.mask');

@@ -42,19 +42,10 @@ header .list-unstyled a:hover {
 .categories {
   display: block;
   text-align: center;
-  padding: 2rem;
+  padding-top: 2rem;
 }
 
 /* Categories list */
-.categories {
-  a {
-    color: #5a85ae;
-    font-family: Arial, serif !important;
-    text-transform: uppercase;
-    text-decoration: underline;
-  }
-}
-
 @media (min-width: 544px) {
   .categories a {
     font-size: 0.5rem;

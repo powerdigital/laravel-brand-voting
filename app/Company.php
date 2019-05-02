@@ -3,10 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Company extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'category_id', 'logo', 'description', 'votes'
+    ];
+
     private const CATEGORIES = [
         1 => 'Свыше 200 чел',
         2 => 'От 100 до 200 чел',
@@ -16,6 +24,13 @@ class Company extends Model
     ];
 
     public const ITEMS_PER_PAGE = 6;
+
+    /**
+     * Flag to set if created/updates fields required.
+     *
+     * @var boolean
+     */
+    public $timestamps = null;
 
     public static function getCategories()
     {
@@ -46,22 +61,8 @@ class Company extends Model
             $companyList[] = json_decode(json_encode($company), true);
         }
 
-        $votes = DB::table('votes')
-            ->select('company_id', DB::raw('count(*) as total'))
-            ->whereIn('company_id', array_keys($companyList))
-            ->groupBy('company_id')
-            ->get();
-
-        $votesMap = [];
-
-        /* @var $vote Vote */
-        foreach ($votes as $vote) {
-            $votesMap[$vote->company_id] = $vote->total;
-        }
-
         return [
             'companies' => $companyList,
-            'votes' => $votesMap,
             'pagination' => $companies,
             'categories' => self::getCategories(),
         ];

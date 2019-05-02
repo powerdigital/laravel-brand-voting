@@ -11,6 +11,20 @@
     <link href="{{asset('/css/app.css')}}" rel="stylesheet">
 </head>
 <body>
+
+@if('local' === App::environment() && Auth::check())
+    <div class="text-right py-2">
+        <a href="{{ route('logout') }}" class="btn btn-primary"
+           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            {{ __('Выход') }}
+        </a>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
+    </div>
+@endguest
+
 <header id="header">
     <div>
         <div class="navbar navbar-dark bg-dark shadow-sm">
@@ -24,9 +38,10 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-8 col-md-8 py-2">
-                        <p class="text-white">HR Brand Crimea - первая премия за лучший бренд
-                            компании-работодателя в Крыму.</p>
-                        <button type="button" class="conditions btn btn-sm btn-primary" data-toggle="modal"
+                        <p class="text-white">
+                            HR Brand Crimea - первая премия за лучший бренд компании-работодателя в Крыму.
+                        </p>
+                        <button type="button" class="conditions btn btn-primary" data-toggle="modal"
                                 data-target=".bd-example-modal-lg">Условия конкурса
                         </button>
                     </div>
