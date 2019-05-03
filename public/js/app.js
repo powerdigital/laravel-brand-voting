@@ -36912,13 +36912,6 @@ if (token) {
 /***/ (function(module, exports) {
 
 $(document).ready(function () {
-  $('.company-details-link').on('click', function (e) {
-    e.preventDefault();
-    var companyModal = $('#companyModal');
-    companyModal.find('.modal-title').html($(this).parents('ul').find('.company-name').html());
-    companyModal.find('.modal-body').html($(this).parents('ul').find('.company-desc').html());
-    companyModal.modal('show');
-  });
   $('.like').on('click', function () {
     $.ajax({
       url: '/voting/add',
@@ -36940,23 +36933,6 @@ $(document).ready(function () {
       }
     });
   });
-
-  function showMessageModal(response) {
-    var messageModal = $('#messageModal');
-    messageModal.on('hide.bs.modal', function () {
-      location.reload();
-    });
-    var className = response.success ? 'text-primary' : 'text-danger';
-    var messageBody = response.message ? response.message : 'Ошибка системы. Обратитесь к администрации сайта';
-    var message = '<p class="text-center ' + className + '">' + messageBody + '</p>';
-    messageModal.find('.modal-body').html(message);
-    var button = messageModal.find('.continue');
-    button.html('Продолжить');
-    button.on('click', function () {
-      location.reload();
-    });
-    messageModal.modal('show');
-  }
 
   function handleAuthForm() {
     var authModal = $('#authModal');
@@ -36987,10 +36963,13 @@ $(document).ready(function () {
         },
         dataType: 'json',
         success: function success(response) {
-          if (response.generated) {
+          if (response.success) {
             authModal.modal('hide');
             $('#codeModal').attr('phone', phone);
             handleConfirmationForm();
+          } else {
+            authModal.modal('hide');
+            showMessageModal(response);
           }
         },
         error: function error(response) {
@@ -37004,7 +36983,7 @@ $(document).ready(function () {
 
   function handleConfirmationForm() {
     var codeModal = $('#codeModal');
-    codeModal.on('hide.bs.modal', function () {
+    codeModal.find('.close').on('click', function () {
       location.reload();
     });
     codeModal.modal('show');
@@ -37043,6 +37022,31 @@ $(document).ready(function () {
       });
     });
   }
+
+  function showMessageModal(response) {
+    var messageModal = $('#messageModal');
+    messageModal.on('hide.bs.modal', function () {
+      location.reload();
+    });
+    var className = response.success ? 'text-primary' : 'text-danger';
+    var messageBody = response.message ? response.message : 'Ошибка системы. Обратитесь к администрации сайта';
+    var message = '<p class="text-center ' + className + '">' + messageBody + '</p>';
+    messageModal.find('.modal-body').html(message);
+    var button = messageModal.find('.continue');
+    button.html('Продолжить');
+    button.on('click', function () {
+      location.reload();
+    });
+    messageModal.modal('show');
+  }
+
+  $('.company-details-link').on('click', function (e) {
+    e.preventDefault();
+    var companyModal = $('#companyModal');
+    companyModal.find('.modal-title').html($(this).parents('ul').find('.company-name').html());
+    companyModal.find('.modal-body').html($(this).parents('ul').find('.company-desc').html());
+    companyModal.modal('show');
+  });
 });
 
 /***/ }),

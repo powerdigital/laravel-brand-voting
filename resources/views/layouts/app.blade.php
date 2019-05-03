@@ -13,8 +13,8 @@
 <body>
 
 @if('local' === App::environment() && Auth::check())
-    <div class="text-right py-2">
-        <a href="{{ route('logout') }}" class="btn btn-primary"
+    <div class="text-right py-1 mr-1">
+        <a href="{{ route('logout') }}" class="btn btn-sm btn-primary"
            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             {{ __('Выход') }}
         </a>

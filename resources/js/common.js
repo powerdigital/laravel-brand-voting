@@ -1,12 +1,4 @@
 $(document).ready(function () {
-    $('.company-details-link').on('click', function (e) {
-        e.preventDefault();
-        let companyModal = $('#companyModal');
-        companyModal.find('.modal-title').html($(this).parents('ul').find('.company-name').html());
-        companyModal.find('.modal-body').html($(this).parents('ul').find('.company-desc').html());
-        companyModal.modal('show');
-    });
-
     $('.like').on('click', function () {
         $.ajax({
             url: '/voting/add',
@@ -26,29 +18,6 @@ $(document).ready(function () {
             }
         });
     });
-
-    function showMessageModal(response) {
-        let messageModal = $('#messageModal');
-
-        messageModal.on('hide.bs.modal', function () {
-            location.reload();
-        });
-
-        let className = response.success ? 'text-primary' : 'text-danger';
-        let messageBody = response.message ? response.message : 'Ошибка системы. Обратитесь к администрации сайта';
-        let message = '<p class="text-center ' + className + '">' + messageBody + '</p>';
-
-        messageModal.find('.modal-body').html(message);
-
-        const button = messageModal.find('.continue');
-        button.html('Продолжить');
-
-        button.on('click', function () {
-            location.reload();
-        });
-
-        messageModal.modal('show');
-    }
 
     function handleAuthForm() {
         let authModal = $('#authModal');
@@ -80,11 +49,14 @@ $(document).ready(function () {
                 data: {phone: phone},
                 dataType: 'json',
                 success: function (response) {
-                    if (response.generated) {
+                    if (response.success) {
                         authModal.modal('hide');
                         $('#codeModal').attr('phone', phone);
 
                         handleConfirmationForm();
+                    } else {
+                        authModal.modal('hide');
+                        showMessageModal(response);
                     }
                 },
                 error: function (response) {
@@ -99,7 +71,7 @@ $(document).ready(function () {
     function handleConfirmationForm() {
         let codeModal = $('#codeModal');
 
-        codeModal.on('hide.bs.modal', function () {
+        codeModal.find('.close').on('click', function () {
             location.reload();
         });
 
@@ -139,4 +111,35 @@ $(document).ready(function () {
             });
         });
     }
+
+    function showMessageModal(response) {
+        let messageModal = $('#messageModal');
+
+        messageModal.on('hide.bs.modal', function () {
+            location.reload();
+        });
+
+        let className = response.success ? 'text-primary' : 'text-danger';
+        let messageBody = response.message ? response.message : 'Ошибка системы. Обратитесь к администрации сайта';
+        let message = '<p class="text-center ' + className + '">' + messageBody + '</p>';
+
+        messageModal.find('.modal-body').html(message);
+
+        const button = messageModal.find('.continue');
+        button.html('Продолжить');
+
+        button.on('click', function () {
+            location.reload();
+        });
+
+        messageModal.modal('show');
+    }
+
+    $('.company-details-link').on('click', function (e) {
+        e.preventDefault();
+        let companyModal = $('#companyModal');
+        companyModal.find('.modal-title').html($(this).parents('ul').find('.company-name').html());
+        companyModal.find('.modal-body').html($(this).parents('ul').find('.company-desc').html());
+        companyModal.modal('show');
+    });
 });
