@@ -137,9 +137,13 @@ $(document).ready(function () {
 
     $('.company-details-link').on('click', function (e) {
         e.preventDefault();
+
         let companyModal = $('#companyModal');
         companyModal.find('.modal-title').html($(this).parents('ul').find('.company-name').html());
-        companyModal.find('.modal-body').html($(this).parents('ul').find('.company-desc').html());
+
+        let message = $(this).parents('ul').find('.company-desc').children('small').html();
+
+        companyModal.find('.modal-body').html(message);
         companyModal.modal('show');
     });
 });

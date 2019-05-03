@@ -37044,7 +37044,8 @@ $(document).ready(function () {
     e.preventDefault();
     var companyModal = $('#companyModal');
     companyModal.find('.modal-title').html($(this).parents('ul').find('.company-name').html());
-    companyModal.find('.modal-body').html($(this).parents('ul').find('.company-desc').html());
+    var message = $(this).parents('ul').find('.company-desc').children('small').html();
+    companyModal.find('.modal-body').html(message);
     companyModal.modal('show');
   });
 });
