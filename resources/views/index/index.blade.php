@@ -4,7 +4,8 @@
     <div class="categories">
         <a class="btn btn-sm btn-primary mb-1" href="/">Все</a>
         @foreach($categories as $index => $category)
-            * <a class="btn btn-sm btn-primary mb-1" href="/category/{{$index}}">{{$category}}</a>
+            * <a class="btn btn-sm btn-primary mb-1 @if($categoryId === $index) {{'active'}} @endif"
+                 href="/category/{{$index}}">{{$category}}</a>
         @endforeach
     </div>
 
@@ -40,7 +41,8 @@
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="btn-group">
-                                                <div class="like"></div> <!--  data-toggle="modal" data-target="#authModal" -->
+                                                <div class="like"></div>
+                                                <!--  data-toggle="modal" data-target="#authModal" -->
                                             </div>
                                         </div>
                                     </div>
@@ -49,7 +51,8 @@
                         </div>
                     @endforeach
                 @else
-                    <h3 class="text-dark pl-1 pr-1 text-center">В данный момент в текущей категории нет ни одной компании</h3>
+                    <h3 class="text-dark pl-1 pr-1 text-center">В данный момент в текущей категории нет ни одной
+                        компании</h3>
                 @endif
             </div>
         </div>

@@ -12,6 +12,17 @@
   background-size: 100%;
 }
 
+.logo-footer {
+  width: 10rem;
+  height: 2.5rem;
+  background: url('./~/img/logo.png') 0 0 no-repeat;
+  background-size: 100%;
+}
+
+.organizers {
+  list-style: none !important;
+}
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -28,6 +39,14 @@ header .list-unstyled a:hover {
 
 .conditions {
   cursor: pointer;
+  background-color: rgb(247, 223, 100);
+  color: black;
+  border: none;
+}
+
+.conditions:hover {
+  background-color: rgb(247, 223, 100);
+  color: black;
 }
 
 .bd-placeholder-img {
@@ -43,6 +62,22 @@ header .list-unstyled a:hover {
   display: block;
   text-align: center;
   padding-top: 2rem;
+}
+
+.categories a {
+  background-color: rgb(88, 89, 94);
+  border: none;
+  border-radius: 0.6rem;
+}
+
+.categories a:hover {
+  background-color: rgb(88, 89, 94);
+  border: none;
+}
+
+.categories .active {
+  background-color: #f7df64 !important;
+  color: black !important;
 }
 
 /* Categories list */

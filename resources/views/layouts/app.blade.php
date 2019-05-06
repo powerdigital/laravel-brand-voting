@@ -41,17 +41,11 @@
                         <p class="text-white">
                             HR Brand Crimea - первая премия за лучший бренд компании-работодателя в Крыму.
                         </p>
+                    </div>
+                    <div class="col-sm-4 py-2">
                         <button type="button" class="conditions btn btn-primary" data-toggle="modal"
                                 data-target=".bd-example-modal-lg">Условия конкурса
                         </button>
-                    </div>
-                    <div class="col-sm-4 py-2">
-                        <h4 class="text-orange">Контакты</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="tel:+79785555555" class="text-white">+7 978 555-55-55</a></li>
-                            <li><a href="http://hrdaycrimea.ru" class="text-white"
-                                   target="_blank">Организаторы</a></li>
-                        </ul>
                     </div>
                 </div>
             </div>
@@ -66,7 +60,17 @@
 
 <footer class="py-5 bg-dark" id="footer">
     <div class="container">
-        <p class="m-0 text-center text-white">ПРЕМИЯ HR BRAND CRIMEA &copy; 2019</p>
+        <div class="col-5" style="margin-top: -20px">
+            <div class="float-left">
+                <div class="logo-footer"></div>
+            </div>
+            <div class="float-left">
+                <ul class="organizers m-0 p-0">
+                    <li class="text-white">Организаторы</li>
+                    <li class="text-white">Премия HR Brand Crimea &copy; 2019</li>
+                </ul>
+            </div>
+        </div>
     </div>
 </footer>
 <script src="{{asset('/js/app.js')}}"></script>
