@@ -17,13 +17,13 @@ class Company extends Model
 
     private const CATEGORIES = [
         1 => '> 200 чел',
-        2 => '100 - 200 чел',
-        3 => '50 - 100 чел',
-        4 => '20 - 50 чел',
+        2 => '100 - 199 чел',
+        3 => '50 - 99 чел',
+        4 => '20 - 49 чел',
         5 => '< 20 чел',
     ];
 
-    public const ITEMS_PER_PAGE = 6;
+    public const ITEMS_PER_PAGE = 9;
 
     /**
      * Flag to set if created/updates fields required.
@@ -52,7 +52,8 @@ class Company extends Model
             $query->where('category_id', $categoryId);
         }
 
-        $companies = $query->paginate(self::ITEMS_PER_PAGE);
+//        $companies = $query->paginate(self::ITEMS_PER_PAGE);
+        $companies = $query->get();
 
         $companyList = [];
 

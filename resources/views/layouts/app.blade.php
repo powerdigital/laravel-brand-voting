@@ -62,7 +62,9 @@
     <div class="container">
         <div class="col-5" style="margin-top: -20px">
             <div class="float-left">
-                <div class="logo-footer"></div>
+                <a href="http://hrdaycrimea.ru/" target="_blank" rel="nofollow">
+                    <div class="logo-footer"></div>
+                </a>
             </div>
             <div class="float-left">
                 <ul class="organizers m-0 p-0">

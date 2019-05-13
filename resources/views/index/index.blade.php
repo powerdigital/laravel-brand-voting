@@ -16,7 +16,9 @@
                     @foreach($companies as $company)
                         <div class="col-md-4 mb-2 company" data-company-id="{{$company['id']}}">
                             <div class="card mb-4 shadow-sm">
-                                <img src="/img/{{$company['logo']}}.jpg" alt="fiolent">
+                                <div class="card-img text-center align-middle">
+                                    <img src="/images/{{$company['logo']}}.png" alt="{{$company['name']}}">
+                                </div>
                                 <div class="card-body">
                                     <div class="card-left col-9 float-left">
                                         <ul>
@@ -51,16 +53,17 @@
                         </div>
                     @endforeach
                 @else
-                    <h3 class="text-dark pl-1 pr-1 text-center">В данный момент в текущей категории нет ни одной
-                        компании</h3>
+                    <h3 class="text-dark pl-1 pr-1 text-center">
+                        В данный момент в текущей категории нет ни одной компании
+                    </h3>
                 @endif
             </div>
         </div>
     </div>
 
-    <nav aria-label="Page navigation" class="pagination-block">
-        {{$pagination->links()}}
-    </nav>
+{{--    <nav aria-label="Page navigation" class="pagination-block">--}}
+{{--        {{$pagination->links()}}--}}
+{{--    </nav>--}}
 
     @include('modals.conditions')
     @include('modals.company')

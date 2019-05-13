@@ -118,7 +118,7 @@ header .list-unstyled a:hover {
 
 .company {
   .card-body {
-    height: 10rem;
+    height: 11rem;
     padding: 0.5rem 0;
     overflow: hidden;
   }
@@ -136,6 +136,8 @@ header .list-unstyled a:hover {
 
 .company-name {
   font-weight: bold;
+  height: 2.7rem;
+  overflow: hidden;
 }
 
 .company-category {
@@ -159,8 +161,15 @@ header .list-unstyled a:hover {
 .album {
   .col-md-4 img {
     max-width: 100%;
-    height: 230px;
+    max-height: 100%;
   }
+}
+
+.card-img {
+  width: 100%;
+  height: 15rem;
+  line-height: 15rem;
+  padding: 0.5rem;
 }
 
 .card-left {
@@ -200,6 +209,6 @@ header .list-unstyled a:hover {
 }
 
 .pagination {
-  width: 19rem;
+  //width: 19rem;
   margin: 2rem auto 0;
 }
