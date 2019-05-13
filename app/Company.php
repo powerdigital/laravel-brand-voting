@@ -52,8 +52,7 @@ class Company extends Model
             $query->where('category_id', $categoryId);
         }
 
-//        $companies = $query->paginate(self::ITEMS_PER_PAGE);
-        $companies = $query->get();
+        $companies = $query->inRandomOrder()->get();
 
         $companyList = [];
 
