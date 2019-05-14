@@ -12,7 +12,11 @@ class Company extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'category_id', 'logo', 'description', 'votes'
+        'name',
+        'category_id',
+        'logo',
+        'description',
+        'votes'
     ];
 
     private const CATEGORIES = [
@@ -50,9 +54,12 @@ class Company extends Model
 
         if ($categoryId) {
             $query->where('category_id', $categoryId);
+            $query->orderByDesc('votes');
+        } else {
+            $query->inRandomOrder();
         }
 
-        $companies = $query->inRandomOrder()->get();
+        $companies = $query->get();
 
         $companyList = [];
 
