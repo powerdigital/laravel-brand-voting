@@ -19,6 +19,9 @@ class LoginController extends Controller
 {
     private const CORRECT_CODES = [100, 101, 102, 103, 110];
 
+    private const SMS_SERVICE_SMS_RU = 'smsru';
+    private const SMS_SERVICE_SMSCENTER = 'smscenter';
+
     /*
     |--------------------------------------------------------------------------
     | Login Controller
@@ -62,13 +65,32 @@ class LoginController extends Controller
 
             User::updateOrCreate(['phone' => $phone], ['password' => Hash::make($code), 'active' => 1]);
 
-            if ($this->sendSms($phone, $code)) {
+            $smsService = env('SMS_SERVICE');
+            Log::info('Current SMS service: ' . $smsService);
+
+            $smsStatus = false;
+
+            if (self::SMS_SERVICE_SMS_RU === $smsService) {
+                $smsStatus = $this->sendSmsRu($phone, $code);
+            } elseif (self::SMS_SERVICE_SMSCENTER === $smsService) {
+                $smsStatus = $this->sendSmsCenter($phone, $code);
+            } else {
+                Log::error(sprintf('Неизвестный сервис отправки сообщений: %s', $smsService));
+            }
+
+            if ($smsStatus) {
                 return response()->json(['success' => true], Http::HTTP_OK);
             }
 
             throw new Exception('Не удалось отправить код подтверждения. Возможно указан неверный номер телефона');
         } catch (Throwable $e) {
-            Log::info(sprintf('Code generating error: phone - %s, message - %s', $phone, $e->getMessage()));
+            Log::info(
+                sprintf(
+                    'Code generating and sending error: phone - %s, message - %s',
+                    $phone,
+                    $e->getMessage()
+                )
+            );
 
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
@@ -91,19 +113,42 @@ class LoginController extends Controller
         return $code;
     }
 
-    private function sendSms(string $phone, string $message): bool
+    private function sendSmsRu(string $phone, string $message): bool
     {
         try {
-            $apiKey = env('SMS_RU_KEY_ID');
+            $apiKey = env('SMS_RU_KEY_ID', 'key_required');
             $url = "https://sms.ru/sms/send?api_id=$apiKey&to=$phone&msg=$message&json=1";
             $url .= 'local' === App::environment() ? '&test=1' : '';
 
             $body = file_get_contents($url);
             $response = json_decode($body, true);
 
-            Log::info(sprintf('An SMS sent, response body: %s', $body));
+            Log::info(sprintf('An SMS sent to %s, response body: %s', $url, $body));
+
+            if (!isset($response['sms'])) {
+                return false;
+            }
 
             return in_array((int)$response['sms'][$phone]['status_code'], self::CORRECT_CODES);
+        } catch (Throwable $e) {
+            Log::error(sprintf('SMS sending error: %s', $e->getMessage()));
+
+            return false;
+        }
+    }
+
+    private function sendSmsCenter(string $phone, string $message): bool
+    {
+        try {
+            $login = env('SMS_CENTER_LOGIN');
+            $password = env('SMS_CENTER_PASSWORD');
+            $url = "https://smsc.ru/sys/send.php?login=$login&psw=$password&phones=+$phone&mes=$message";
+
+            $body = file_get_contents($url);
+
+            Log::info(sprintf('An SMS sent to %s, response body: %s', $url, $body));
+
+            return false !== strpos($body, 'OK');
         } catch (Throwable $e) {
             Log::error(sprintf('SMS sending error: %s', $e->getMessage()));
 
