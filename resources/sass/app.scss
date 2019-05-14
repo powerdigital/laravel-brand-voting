@@ -102,6 +102,9 @@ header .list-unstyled a:hover {
   .bd-placeholder-img-lg {
     font-size: 3.5rem;
   }
+  .header-text {
+    height: 5rem;
+  }
 }
 
 @media (min-width: 992px) {
@@ -109,12 +112,18 @@ header .list-unstyled a:hover {
     font-size: 1rem;
     margin: 0 0.75rem;
   }
+  .header-text {
+    height: 5rem;
+  }
 }
 
 @media (min-width: 1200px) {
   .categories a {
     font-size: 1.5rem;
     margin: 0 1rem;
+  }
+  .header-text {
+    height: 5rem;
   }
 }
 
