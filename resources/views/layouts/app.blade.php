@@ -37,12 +37,10 @@
         <div class="bg-dark" id="navbarHeader">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-8 col-md-8 py-2">
-                        <p class="text-white">
-                            Приглашаем вас проголосовать за лучших работодателей Крыма. Вы можете выбрать до трёх
-                            компаний в каждой категории. Регистрация по номеру телефона бесплатная. Голосование продлится до 17
-                            мая.
-                        </p>
+                    <div class="col-sm-8 col-md-8 py-2 text-white header-text">
+                        Приглашаем вас проголосовать за лучших работодателей Крыма. Вы можете выбрать до трёх
+                        компаний в каждой категории. Регистрация по номеру телефона бесплатная.
+                        Голосование продлится до 18.00, 17.05.2019.
                     </div>
                     <div class="col-sm-4 py-2">
                         <button type="button" class="conditions btn btn-primary" data-toggle="modal"
