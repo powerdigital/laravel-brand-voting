@@ -60,7 +60,7 @@
 
 <footer class="py-5 bg-dark" id="footer">
     <div class="container">
-        <div class="col-5" style="margin-top: -20px">
+        <div class="col-12">
             <div class="float-left">
                 <a href="http://hrdaycrimea.ru/" target="_blank" rel="nofollow">
                     <div class="logo-footer"></div>
