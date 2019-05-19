@@ -1,4 +1,4 @@
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="conditionsModalLabel"
+<div class="modal fade conditions-modal" tabindex="-1" role="dialog" aria-labelledby="conditionModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -53,7 +53,6 @@
                 <p>4.В компании заботятся о развитии сотрудников</p>
                 <p>5.В компании есть система мотивации (премии, бонусы, льготы, подарки, компенсации и т.п.)</p>
             </div>
-
         </div>
     </div>
 </div>

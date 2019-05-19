@@ -12,7 +12,7 @@
 </head>
 <body>
 
-@if('local' === App::environment() && Auth::check())
+@if('local' !== App::environment() && Auth::check())
     <div class="text-right py-1 mr-1">
         <a href="{{ route('logout') }}" class="btn btn-sm btn-primary"
            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -38,14 +38,18 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-8 col-md-8 py-2 text-white header-text">
-                        Приглашаем вас проголосовать за лучших работодателей Крыма. Вы можете выбрать до трёх
-                        компаний в каждой категории. Регистрация по номеру телефона бесплатная.
-                        Голосование продлится до 18.00, 17.05.2019.
+                        Результаты голосования будут обьявлены 22 мая 2019 г.
+{{--                        Приглашаем вас проголосовать за лучших работодателей Крыма. Вы можете выбрать до трёх--}}
+{{--                        компаний в каждой категории. Регистрация по номеру телефона бесплатная.--}}
+{{--                        Голосование продлится до 18.00, 18.05.2019.--}}
                     </div>
                     <div class="col-sm-4 py-2">
-                        <button type="button" class="conditions btn btn-primary" data-toggle="modal"
-                                data-target=".bd-example-modal-lg">Условия конкурса
+                        <button type="button" class="conditions btn btn-primary float-left mr-2" data-toggle="modal"
+                                data-target=".conditions-modal">Условия конкурса
                         </button>
+{{--                        <button type="button" class="attention btn btn-danger float-left" data-toggle="modal"--}}
+{{--                                data-target=".attention-modal">Внимание--}}
+{{--                        </button>--}}
                     </div>
                 </div>
             </div>

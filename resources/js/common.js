@@ -46,7 +46,10 @@ $(document).ready(function () {
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                data: {phone: phone},
+                data: {
+                    phone: phone,
+                    'g-recaptcha-response': $('#g-recaptcha-response').val()
+                },
                 dataType: 'json',
                 success: function (response) {
                     if (response.success) {

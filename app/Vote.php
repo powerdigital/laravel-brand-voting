@@ -12,13 +12,7 @@ class Vote extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'company_id'
+        'user_id',
+        'company_id'
     ];
-
-    /**
-     * Flag to set if created/updates fields required.
-     *
-     * @var boolean
-     */
-    public $timestamps = null;
 }

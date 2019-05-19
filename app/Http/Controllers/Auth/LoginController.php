@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 use Throwable;
 
 class LoginController extends Controller
@@ -58,6 +59,14 @@ class LoginController extends Controller
         $phone = $request->get('phone');
 
         try {
+//            $validator = Validator::make($request->all(), [
+//                'g-recaptcha-response' => 'required|captcha'
+//            ]);
+//
+//            if ($validator->fails()) {
+//                throw new Exception('Net bot identified by ReCaptcha validator');
+//            }
+
             $code = $this->generateCode($phone);
 
             if (null === $code) {
@@ -89,13 +98,13 @@ class LoginController extends Controller
         } catch (Throwable $e) {
             Log::info(
                 sprintf(
-                    'Code generating and sending error: phone - %s, message - %s',
+                    'Code generating or sending error: phone - %s, message - %s',
                     $phone,
                     $e->getMessage()
                 )
             );
 
-            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+            return response()->json(['success' => false, 'message' => 'Ошибка отправки кода авторизации']);
         }
     }
 
