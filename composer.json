@@ -13,7 +13,8 @@
     "albertcht/invisible-recaptcha": "^1.9",
     "fideloper/proxy": "^4.0",
     "laravel/framework": "5.8.*",
-    "laravel/tinker": "^1.0"
+    "laravel/tinker": "^1.0",
+    "ext-curl": "*"
   },
   "require-dev": {
     "barryvdh/laravel-ide-helper": "^2.6",

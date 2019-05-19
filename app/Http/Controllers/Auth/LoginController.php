@@ -3,23 +3,20 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Services\SmsService\SmsProviderFactory;
 use App\User;
 use Exception;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as Http;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Validator;
 use Throwable;
 
 class LoginController extends Controller
 {
-    private const CORRECT_CODES = [100, 101, 102, 103, 110];
-
     private const SMS_SERVICE_SMS_RU = 'smsru';
     private const SMS_SERVICE_SMSCENTER = 'smscenter';
     private const SMS_SERVICE_EPOCHTA = 'epochta';
@@ -59,14 +56,6 @@ class LoginController extends Controller
         $phone = $request->get('phone');
 
         try {
-//            $validator = Validator::make($request->all(), [
-//                'g-recaptcha-response' => 'required|captcha'
-//            ]);
-//
-//            if ($validator->fails()) {
-//                throw new Exception('Net bot identified by ReCaptcha validator');
-//            }
-
             $code = $this->generateCode($phone);
 
             if (null === $code) {
@@ -75,22 +64,9 @@ class LoginController extends Controller
 
             User::updateOrCreate(['phone' => $phone], ['password' => Hash::make($code), 'active' => 1]);
 
-            $smsService = env('SMS_SERVICE');
-            Log::info('Current SMS service: ' . $smsService);
+            $provider = (new SmsProviderFactory(env('SMS_SERVICE')))->get();
 
-            $smsStatus = false;
-
-            if (self::SMS_SERVICE_SMS_RU === $smsService) {
-                $smsStatus = $this->sendSmsRu($phone, $code);
-            } elseif (self::SMS_SERVICE_SMSCENTER === $smsService) {
-                $smsStatus = $this->sendSmsCenter($phone, $code);
-            } elseif (self::SMS_SERVICE_EPOCHTA === $smsService) {
-                $smsStatus = $this->sendEpochta($phone, $code);
-            } else {
-                Log::error(sprintf('Неизвестный сервис отправки сообщений: %s', $smsService));
-            }
-
-            if ($smsStatus) {
+            if ($provider->send($phone, $code)) {
                 return response()->json(['success' => true], Http::HTTP_OK);
             }
 
@@ -123,106 +99,6 @@ class LoginController extends Controller
         }
 
         return $code;
-    }
-
-    private function sendSmsRu(string $phone, string $message): bool
-    {
-        try {
-            $apiKey = env('SMS_RU_KEY_ID', 'key_required');
-            $url = "https://sms.ru/sms/send?api_id=$apiKey&to=$phone&msg=$message&json=1";
-            $url .= 'local' === App::environment() ? '&test=1' : '';
-
-            $body = file_get_contents($url);
-            $response = json_decode($body, true);
-
-            Log::info(sprintf('An SMS sent to %s, response body: %s', $url, $body));
-
-            if (!isset($response['sms'])) {
-                return false;
-            }
-
-            return in_array((int)$response['sms'][$phone]['status_code'], self::CORRECT_CODES);
-        } catch (Throwable $e) {
-            Log::error(sprintf('SMS sending error: %s', $e->getMessage()));
-
-            return false;
-        }
-    }
-
-    private function sendSmsCenter(string $phone, string $message): bool
-    {
-        try {
-            $login = env('SMS_CENTER_LOGIN');
-            $password = env('SMS_CENTER_PASSWORD');
-            $url = "https://smsc.ru/sys/send.php?login=$login&psw=$password&phones=+$phone&mes=$message";
-
-            $body = file_get_contents($url);
-
-            Log::info(sprintf('An SMS sent to %s, response body: %s', $url, $body));
-
-            return false !== strpos($body, 'OK');
-        } catch (Throwable $e) {
-            Log::error(sprintf('SMS sending error: %s', $e->getMessage()));
-
-            return false;
-        }
-    }
-
-    private function sendEpochta(string $phone, string $message): bool
-    {
-        try {
-            $url = 'http://api.atompark.com/members/sms/xml.php';
-            $username = env('EPOCHTA_USERNAME');
-            $password = env('EPOCHTA_PASSWORD');
-
-            $src = "<?xml version='1.0' encoding='UTF-8'?>
-                <SMS>
-                    <operations>
-                        <operation>SEND</operation>
-                    </operations>
-                    <authentification>
-                        <username>$username</username>
-                        <password>$password</password>
-                    </authentification>
-                    <message>
-                        <sender>hrbrand</sender>
-                        <text>$message</text>
-                    </message>
-                    <numbers>
-                        <number>$phone</number>
-                    </numbers>
-                </SMS>";
-
-            $curl = curl_init();
-            $options = array(
-                CURLOPT_URL => $url,
-                CURLOPT_FOLLOWLOCATION => false,
-                CURLOPT_POST => true,
-                CURLOPT_HEADER => false,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_CONNECTTIMEOUT => 15,
-                CURLOPT_TIMEOUT => 100,
-                CURLOPT_POSTFIELDS => array('XML' => $src),
-            );
-
-            curl_setopt_array($curl, $options);
-
-            $body = curl_exec($curl);
-            Log::info(sprintf('An SMS sent to %s', $body));
-            Log::info(sprintf('Epochta response body: %s', $body));
-
-            if (false === $body) {
-                throw new Exception('Http request failed');
-            }
-
-            curl_close($curl);
-
-            return true;
-        } catch (Exception $e) {
-            Log::error(sprintf('SMS sending error: %s', $e->getMessage()));
-
-            return false;
-        }
     }
 
     /**
