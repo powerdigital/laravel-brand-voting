@@ -56,11 +56,8 @@ class LoginController extends Controller
         $phone = $request->get('phone');
 
         try {
-            $code = $this->generateCode($phone);
-
-            if (null === $code) {
-                throw new Exception('Не удалось сгенерировать код подтверждения');
-            }
+            $code = random_int(1000, 9999);
+            Log::info(sprintf('Code %s for the phone number %s generated', $code, $phone));
 
             User::updateOrCreate(['phone' => $phone], ['password' => Hash::make($code), 'active' => 1]);
 
@@ -74,7 +71,7 @@ class LoginController extends Controller
         } catch (Throwable $e) {
             Log::info(
                 sprintf(
-                    'Code generating or sending error: phone - %s, message - %s',
+                    'Code sending error: phone - %s, message - %s',
                     $phone,
                     $e->getMessage()
                 )
@@ -82,23 +79,6 @@ class LoginController extends Controller
 
             return response()->json(['success' => false, 'message' => 'Ошибка отправки кода авторизации']);
         }
-    }
-
-    private function generateCode(string $phone): ?int
-    {
-        $code = null;
-
-        try {
-            $code = random_int(1000, 9999);
-
-            Log::info(sprintf('Code %s for the phone number %s successfully generated', $code, $phone));
-
-            return $code;
-        } catch (Throwable $e) {
-            Log::error($e->getMessage());
-        }
-
-        return $code;
     }
 
     /**
